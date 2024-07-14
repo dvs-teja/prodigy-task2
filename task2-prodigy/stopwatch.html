@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timer</title>
+  <style>
+    body {
+      background-color: blueviolet;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .main {
+       text-align: center;
+       background-color: white;
+       width: 540px;
+       height: 200px;
+       padding: 20px;
+       border: 2px solid black;
+    }
+    .timer {
+      color: black;
+      font-size: 25px;
+    }
+    .buttons {
+      margin-top: 20px;
+    }
+    button {
+      height: 30px;
+      width: 100px;
+      color: white;
+      border: none;
+      margin: 0 10px;
+      cursor: pointer;
+    }
+    .start {
+      background-color: rgb(88, 17, 154);
+    }
+    .pause {
+      background-color: red;
+    }
+    .reset {
+      background-color: rgb(236, 236, 12);
+    }
+  </style>
+</head>
+<body>
+  <div class="main">
+    <h4 class="timer">00 : 00 : 00 : 00</h4>
+    <div class="buttons">
+      <button class="start" onclick="startTimer()">Start</button>
+      <button class="pause" onclick="pauseTimer()">Pause</button>
+      <button class="reset" onclick="resetTimer()">Reset</button>
+    </div>
+  </div>
+
+  <script>
+    let timerInterval;
+    let hours = 0, minutes = 0, seconds = 0, milliseconds = 0;
+
+    function startTimer() {
+      clearInterval(timerInterval);
+      timerInterval = setInterval(updateTimer, 10);
+    }
+
+    function pauseTimer() {
+      clearInterval(timerInterval); 
+    }
+    function resetTimer() {
+      clearInterval(timerInterval); 
+      hours = minutes = seconds = milliseconds = 0;
+      updateDisplay();
+    }
+
+    function updateTimer() {
+      milliseconds++;
+      if (milliseconds >= 100) {
+        milliseconds = 0;
+        seconds++;
+      }
+      if (seconds >= 60) {
+        seconds = 0;
+        minutes++;
+      }
+      if (minutes >= 60) {
+        minutes = 0;
+        hours++;
+      }
+      updateDisplay();
+    }
+
+    function updateDisplay() {
+      const formattedTime = pad(hours, 2) + " : " + pad(minutes, 2) + " : " + pad(seconds, 2) + " : " + pad(milliseconds, 2);
+      document.querySelector(".timer").textContent = formattedTime;
+    }
+
+    function pad(number, size) {
+      let padded = String(number);
+      while (padded.length < size) {
+        padded = "0" + padded;
+      }
+      return padded;
+    }
+  </script>
+</body>
+</html>
